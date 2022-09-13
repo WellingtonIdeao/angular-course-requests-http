@@ -1,18 +1,18 @@
-http://localhost:2000/cursos
+http://localhost:3000/cursos
 
 ###
-GET http://localhost:2000/cursos/1
+GET http://localhost:3000/cursos/1
 
 ###
-POST http://localhost:2000/cursos/ HTTP/1.1
+POST http://localhost:3000/cursos/ HTTP/1.1
 content-type: application/json
 
 {
-    "nome": "Python"
+    "nome": "JAVA"
 }
 
 ###
-PUT http://localhost:2000/cursos/2 HTTP/1.1
+PUT http://localhost:3000/cursos/2 HTTP/1.1
 content-type: application/json
 
 {
@@ -20,4 +20,4 @@ content-type: application/json
 }
 
 ###
- DELETE  http://localhost:2000/cursos/4
+ DELETE  http://localhost:3000/cursos/4
