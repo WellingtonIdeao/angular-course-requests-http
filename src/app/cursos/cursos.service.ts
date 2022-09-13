@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { ICurso } from './ICurso';
-import { Observable, tap } from 'rxjs';
+import { delay, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 
@@ -19,6 +19,7 @@ export class CursosService {
   list(): Observable<ICurso[]> {
     return this.http.get<ICurso[]>(this.API).
     pipe(
+      delay(2000),
       tap(console.log)
     );
   }
