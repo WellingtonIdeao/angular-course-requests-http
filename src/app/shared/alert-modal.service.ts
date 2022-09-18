@@ -15,10 +15,13 @@ export class AlertModalService {
 
   constructor(private modalService: NgbModal) { }
 
-  private showAlert(message: string, type: AlertTypes){
+  private showAlert(message: string, type: AlertTypes, dismissTimeOut?: number){
     const modalRef = this.modalService.open(AlertModalComponent);
     modalRef.componentInstance.type = type;
     modalRef.componentInstance.message = message;
+    if (dismissTimeOut){
+      setTimeout(()=> modalRef.dismiss(), dismissTimeOut); 
+    }
   }
 
   showAlertDanger(message: string) {
@@ -26,6 +29,6 @@ export class AlertModalService {
   }
 
   showAlertSuccess(message: string) {
-    this.showAlert(message, AlertTypes.SUCCESS);
+    this.showAlert(message, AlertTypes.SUCCESS, 3000);
   }
 }
