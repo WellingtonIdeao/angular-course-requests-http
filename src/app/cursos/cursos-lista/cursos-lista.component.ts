@@ -4,8 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { CursosService } from '../cursos.service';
 import { ICurso } from '../ICurso';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
+import { AlertModalService } from 'src/app/shared/alert-modal.service';
 
 @Component({
   selector: 'app-cursos-lista',
@@ -22,7 +21,7 @@ export class CursosListaComponent implements OnInit {
   
   constructor(
     private service: CursosService,
-    private modalService: NgbModal  
+    private alertModalService: AlertModalService
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +37,7 @@ export class CursosListaComponent implements OnInit {
       // switchMap()
       catchError(error => {
         console.error(error);
-        this.error$.next(true);
+        //this.error$.next(true);
         this.handleError();
         //return empty();
         return of();
@@ -67,12 +66,8 @@ export class CursosListaComponent implements OnInit {
       }
     ) */ 
   }
+
   handleError() {
-    const modalRef = this.modalService.open(AlertModalComponent);
-    modalRef.componentInstance.type = 'danger';
-    modalRef.componentInstance.message = 'Error ao carregar cursos. Tente novamente mais tarde.';
+    this.alertModalService.showAlertDanger('Error ao carregar cursos. Tente novamente mais tarde.');
   }
-
-
-
 }
