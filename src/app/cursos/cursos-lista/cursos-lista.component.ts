@@ -4,6 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { CursosService } from '../cursos.service';
 import { ICurso } from '../ICurso';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
+
 @Component({
   selector: 'app-cursos-lista',
   templateUrl: './cursos-lista.component.html',
@@ -17,7 +20,10 @@ export class CursosListaComponent implements OnInit {
   // Subject - objeto que pode emitir valores, neste caso boolean.
   error$ =  new Subject<boolean>();
   
-  constructor(private service: CursosService) { }
+  constructor(
+    private service: CursosService,
+    private modalService: NgbModal  
+  ) { }
 
   ngOnInit(): void {
     //this.service.list().subscribe((dados: ICurso[]) => this.cursos = dados);
@@ -33,6 +39,7 @@ export class CursosListaComponent implements OnInit {
       catchError(error => {
         console.error(error);
         this.error$.next(true);
+        this.handleError();
         //return empty();
         return of();
       })
@@ -59,6 +66,11 @@ export class CursosListaComponent implements OnInit {
         console.log(dados);
       }
     ) */ 
+  }
+  handleError() {
+    const modalRef = this.modalService.open(AlertModalComponent);
+    modalRef.componentInstance.type = 'danger';
+    modalRef.componentInstance.message = 'Error ao carregar cursos. Tente novamente mais tarde.';
   }
 
 
