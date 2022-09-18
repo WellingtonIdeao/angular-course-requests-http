@@ -24,8 +24,8 @@ export class CursosService {
     );
   }
 
-  create(curso: ICurso){
-    return this.http.post(this.API, curso).pipe(take(1));
+  create(curso: ICurso): Observable<ICurso>{
+    return this.http.post<ICurso>(this.API, curso).pipe(take(1));
   }
 
 }

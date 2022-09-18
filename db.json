@@ -39,6 +39,10 @@
     {
       "nome": "material back",
       "id": 10
+    },
+    {
+      "nome": "material type",
+      "id": 11
     }
   ]
 }
