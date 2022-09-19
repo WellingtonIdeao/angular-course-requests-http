@@ -46,16 +46,16 @@ export class CursosFormComponent implements OnInit {
 
     // this.activatedroute.params.subcribe() - Observable - é controlado pelo Angular e faz unsubscribe automaticamente.
     // this.cursoService.listById(id) está usando take(1) que faz o unsubscribe.
-    this.activatedroute.params
-    .pipe(
-      map((params: any) => {
-        console.log(params['id']); 
-        return params['id'];
-      }),
-      switchMap((id: number) => id? this.cursoService.listById(id) : of())
-      // switchMap(cursos => obterAulas)
+    // this.activatedroute.params
+    // .pipe(
+    //   map((params: any) => {
+    //     console.log(params['id']); 
+    //     return params['id'];
+    //   }),
+    //   switchMap((id: number) => id? this.cursoService.listById(id) : of())
+    //   // switchMap(cursos => obterAulas)
       
-    ).subscribe((curso: ICurso) => this.updateForm(curso));
+    // ).subscribe((curso: ICurso) => this.updateForm(curso));
 
     // Alguns operadores RxJS
     // switchMap - cancela as requisiçãos anteriores devolve o valor do ultimo pedido.
@@ -65,19 +65,20 @@ export class CursosFormComponent implements OnInit {
     // mergeMap -> ordem não importa.
     // exhaustMap -> faz a requisição e espera obter resposta antes de fazer uma proxíma/segunda tentativa. Comumente usada em casos de Login.
     
+    const curso = this.activatedroute.snapshot.data['curso'];
 
     this.form = this.fb.group({
-      id: [null],
-      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]]
+      id: curso.id,
+      nome: [curso.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]]
     });
   }
 
-  updateForm(curso: ICurso) {
-    this.form.patchValue({
-      id: curso.id,
-      nome: curso.nome
-    });
-  }
+  // updateForm(curso: ICurso) {
+  //   this.form.patchValue({
+  //     id: curso.id,
+  //     nome: curso.nome
+  //   });
+  // }
 
   onSubmit() {
     this.submitted = true;
