@@ -24,8 +24,13 @@ export class CursosService {
     );
   }
 
+  listById(id: number): Observable<ICurso> {
+    return this.http.get<ICurso>(`${this.API}/${id}`).pipe(take(1));
+  }
+
   create(curso: ICurso): Observable<ICurso>{
     return this.http.post<ICurso>(this.API, curso).pipe(take(1));
   }
+
 
 }
