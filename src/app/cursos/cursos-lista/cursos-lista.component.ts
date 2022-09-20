@@ -85,6 +85,6 @@ export class CursosListaComponent implements OnInit {
 
   onDelete(curso: ICurso){
     const modalRef = this._modalService.open(ConfirmModalComponent);
-    modalRef.componentInstance.id = curso.id;
+    modalRef.componentInstance.curso = curso;
   }
 }

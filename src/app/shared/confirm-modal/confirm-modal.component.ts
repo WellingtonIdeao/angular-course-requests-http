@@ -3,8 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { CursosService } from './../../cursos/cursos.service';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { ICurso } from 'src/app/cursos/ICurso';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class ConfirmModalComponent implements OnInit {
 
-  @Input() id!: number;
+  @Input() curso!: ICurso;
 
 
   constructor(
@@ -29,7 +29,7 @@ export class ConfirmModalComponent implements OnInit {
 
   onConfirmDelete(){
     //console.log('onConfirmDelete');
-    this.cursoService.remove(this.id)
+    this.cursoService.remove(this.curso.id)
     .subscribe({
       next: success => {
         this.alertModalService.showAlertSuccess('Curso removido com sucesso!');
