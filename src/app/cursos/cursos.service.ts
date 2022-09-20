@@ -42,5 +42,9 @@ export class CursosService {
     return this.create(curso);
   }
 
+  remove(id: number): Observable<ICurso> {
+    return this.http.delete<ICurso>(`${this.API}/${id}`).pipe(take(1));
+  }
+
 
 }
