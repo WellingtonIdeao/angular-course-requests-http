@@ -1,4 +1,4 @@
-import { catchError, empty, Observable, of, Subject } from 'rxjs';
+import { catchError, empty, Observable, of, Subject, tap, switchMap, EMPTY, delay, take } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
 import { CursosService } from '../cursos.service';
@@ -6,8 +6,7 @@ import { ICurso } from '../ICurso';
 
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-cursos-lista',
@@ -26,8 +25,7 @@ export class CursosListaComponent implements OnInit {
     private service: CursosService,
     private alertModalService: AlertModalService,
     private router: Router,
-    private  actvatedRoute: ActivatedRoute,
-    private _modalService: NgbModal
+    private actvatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -84,7 +82,19 @@ export class CursosListaComponent implements OnInit {
   }
 
   onDelete(curso: ICurso){
-    const modalRef = this._modalService.open(ConfirmModalComponent);
-    modalRef.componentInstance.curso = curso;
+    const result$ = this.alertModalService.showConfirm('Confirmação', 'Tem certeza que deseja remover o curso?', 'Confirmar');
+    result$.asObservable()
+    .pipe(
+      take(1),
+      tap(console.log),
+      switchMap( result=> result? this.service.remove(curso.id): EMPTY)
+    ).subscribe({
+      next: success => this.onRefresh(),
+      error: error => {
+        this.alertModalService.showAlertDanger('Erro ao remover curso. Tente novamente');
+      },
+      complete: () => console.info('delete request completo') 
+      
+    });
   }
 }

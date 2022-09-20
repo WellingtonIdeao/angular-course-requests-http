@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +15,13 @@ import { ICurso } from 'src/app/cursos/ICurso';
 export class ConfirmModalComponent implements OnInit {
 
   @Input() curso!: ICurso;
+  @Input() title!: string;
+  @Input() body!: string;
+  @Input() okTxt: string = 'Ok';
+  @Input() cancelTxt: string =  'Cancelar';
+
+  @Input() confirmResult!: Subject<boolean>;
+  
 
 
   constructor(
@@ -21,27 +29,42 @@ export class ConfirmModalComponent implements OnInit {
     private cursoService: CursosService,
     private router: Router,
     private alertModalService: AlertModalService
-  ) {}
+  ) {
+    //this.confirmResult = new Subject();
+  }
   
   ngOnInit() {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  //  this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
-  onConfirmDelete(){
-    //console.log('onConfirmDelete');
-    this.cursoService.remove(this.curso.id)
-    .subscribe({
-      next: success => {
-        this.alertModalService.showAlertSuccess('Curso removido com sucesso!');
-        this.router.navigate(['']);
-      },
-      error: error => this.alertModalService.showAlertDanger('Error ao remover curso. Tente novamente mais tarde.')
-    });
-    this.modal.close('Ok click');
+  // onConfirmDelete(){
+  //   //console.log('onConfirmDelete');
+  //   this.cursoService.remove(this.curso.id)
+  //   .subscribe({
+  //     next: success => {
+  //       this.alertModalService.showAlertSuccess('Curso removido com sucesso!');
+  //       this.router.navigate(['']);
+  //     },
+  //     error: error => this.alertModalService.showAlertDanger('Error ao remover curso. Tente novamente mais tarde.')
+  //   });
+  //   this.modal.close('Ok click');
     
+  // }
+
+  //  onDeclineDelete(){
+  //   //console.log('onDeclineDelete');
+  //   this.modal.dismiss('cancel click');
+  // }
+
+  onConfirm(){
+    this.confirmResult.next(true);
+   // this.router.navigate(['']);
+    this.modal.close('Ok click');
+
+
   }
-  onDeclineDelete(){
-    //console.log('onDeclineDelete');
+  onClose(){
+    this.confirmResult.next(false);
     this.modal.dismiss('cancel click');
   }
 }
