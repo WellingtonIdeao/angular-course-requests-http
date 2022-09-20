@@ -28,8 +28,18 @@ export class CursosService {
     return this.http.get<ICurso>(`${this.API}/${id}`).pipe(take(1));
   }
 
-  create(curso: ICurso): Observable<ICurso>{
+  private create(curso: ICurso): Observable<ICurso>{
     return this.http.post<ICurso>(this.API, curso).pipe(take(1));
+  }
+  private update(curso: ICurso): Observable<ICurso>{
+    return this.http.put<ICurso>(`${this.API}/${curso.id}`, curso).pipe(take(1));
+  }
+
+  save(curso: ICurso): Observable<ICurso> {
+    if (curso.id){
+      return this.update(curso);
+    }
+    return this.create(curso);
   }
 
 
