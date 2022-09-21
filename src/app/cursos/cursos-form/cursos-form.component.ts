@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { CursosService } from './../cursos.service';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { ICurso } from '../ICurso';
 import { map, of, switchMap } from 'rxjs';
+import { Curso2Service } from '../curso2.service';
 
 @Component({
   selector: 'app-cursos-form',
@@ -20,7 +20,7 @@ export class CursosFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private cursoService: CursosService,
+    private cursoService: Curso2Service,
     private modal: AlertModalService,
     private location: Location,
     private activatedroute: ActivatedRoute
