@@ -1,12 +1,11 @@
-import { catchError, empty, Observable, of, Subject, tap, switchMap, EMPTY, delay, take } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-
-import { CursosService } from '../cursos.service';
-import { ICurso } from '../ICurso';
-
-import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, empty, Observable, of, Subject, tap, switchMap, EMPTY, delay, take } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { ICurso } from '../ICurso';
+import { AlertModalService } from 'src/app/shared/alert-modal.service';
+import { Curso2Service } from './../curso2.service';
 
 @Component({
   selector: 'app-cursos-lista',
@@ -22,7 +21,7 @@ export class CursosListaComponent implements OnInit {
   error$ =  new Subject<boolean>();
   
   constructor(
-    private service: CursosService,
+    private service: Curso2Service,
     private alertModalService: AlertModalService,
     private router: Router,
     private actvatedRoute: ActivatedRoute,
