@@ -1,4 +1,7 @@
 <div class="mt-3">
     <label for="formFile" class="form-label">Selecionar arquivo</label>
-    <input class="form-control" type="file" id="formFile" multiple>
+    <input #files class="form-control" type="file" id="formFile" multiple (change)="onChange($event)">
+</div>
+<div class="mt-3">
+    <button type="button" class="btn btn-primary" (click)="onUpload()" [disabled]="!submit">Upload</button>
 </div>
