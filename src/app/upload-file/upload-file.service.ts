@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest } from '@angular/common/http';
+import { observeNotification } from 'rxjs/internal/Notification';
 
 
 @Injectable({
@@ -17,7 +18,10 @@ export class UploadFileService {
     // modo de criar request puro no Angular / pode ser feito com form.value ao inves de formData.
     // const request = new HttpRequest('POST', url, formData);
     // return this.http.request(request);
-    
-    return this.http.post(url,formData);
+
+    return this.http.post(url,formData, {
+      observe: "events",
+      reportProgress: true  
+    });
   }
 }
