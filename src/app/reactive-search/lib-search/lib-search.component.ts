@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, tap, filter, distinctUntilChanged, debounceTime, switchMap } from 'rxjs';
 
 import { LibSearchService } from './lib-search.service';
 
@@ -19,10 +19,30 @@ export class LibSearchComponent implements OnInit {
   constructor(private service: LibSearchService) { }
 
   ngOnInit(): void {
+
+    // programação / busca reativa e com programação funcional.
+
+    this.results$ = this.queryField.valueChanges
+      .pipe(
+        map(value => value.trim()),
+        filter(value => value.length > 1),
+        //delay (200mseg)
+        debounceTime(200),
+        // mesmo valor até mudar
+        distinctUntilChanged(),
+        // tap(console.log),
+        switchMap(value => this.service.search(value)),
+        tap((res: any) => this.total = res.total),
+        map((res: any) => res.results)
+      );
+
   }
 
   onSearch() {
-    console.log(this.queryField.value);
+
+    // programação / busca não-reativa.
+
+    //console.log(this.queryField.value);
 
     let value = this.queryField.value;
     if (value && (value = value.trim()) !== '') {
