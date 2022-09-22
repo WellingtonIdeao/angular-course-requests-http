@@ -1,3 +1,4 @@
+import { AlertTypes } from './../../shared/alert-modal.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
@@ -24,7 +25,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.sub.forEach(s => s.unsubscribe());
-    
+
   }
 
   onChange(event: any) {
@@ -45,14 +46,14 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   onUpload() {
     if (this.fileExist()) {
-      this.sub.push(this.service.upload(this.files,`${environment.BASE_URL}/upload`)
-      .pipe(
-        uploadProgress(progress => {
-          console.log(progress);
-          this.progress = progress;
-        }),
-        filterResponse()
-      ).subscribe(res => console.log('Upload Concluído')));
+      this.sub.push(this.service.upload(this.files, `${environment.BASE_URL}/upload`)
+        .pipe(
+          uploadProgress(progress => {
+            console.log(progress);
+            this.progress = progress;
+          }),
+          filterResponse()
+        ).subscribe(res => console.log('Upload Concluído')));
 
 
       // .subscribe({
@@ -73,6 +74,22 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   fileExist(): boolean {
     return this.files && this.files.size > 0 ? true : false;
+  }
+
+  onDownloadExcel() {
+    this.sub.push(this.service.download(`${environment.BASE_URL}/downloadExcel`)
+      .subscribe((res: any) => {
+        this.service.handleFile(res, 'report.xls');
+      })
+    );
+
+  }
+  onDownloadPDF() {
+    this.sub.push(this.service.download(`${environment.BASE_URL}/downloadPDF`)
+      .subscribe((res: any) => {
+        this.service.handleFile(res, 'report.pdf');
+      })
+    );
   }
 
 }
