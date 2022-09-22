@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
-
+import { ReactiveSearchModule } from './reactive-search/reactive-search.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,8 @@ import { SharedModule } from './shared/shared.module';
     NgbModule,
     CursosModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    ReactiveSearchModule
   ],
   providers: [],
   bootstrap: [AppComponent]
